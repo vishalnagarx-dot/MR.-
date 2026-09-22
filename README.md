@@ -1,1 +1,375 @@
-# MR.-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced MR Tour & Expense Diary — Doctor Medhi</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --brand-blue: #0f2b48;
+      --mr-orange: #ea580c;
+      --primary: #0284c7;
+      --bg: #f4f6f9;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+
+    .container { max-width: 1050px; width: 100%; }
+
+    .header-card {
+      background: #ffffff; border-radius: 16px; padding: 24px; box-shadow: var(--shadow);
+      margin-bottom: 20px; border-top: 5px solid var(--mr-orange);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;
+    }
+    .header-card h1 { font-size: 1.7rem; font-weight: 800; color: var(--brand-blue); display: flex; align-items: center; gap: 10px; }
+    .header-card h1 i { color: var(--mr-orange); }
+    .header-card p { font-size: 0.88rem; color: var(--muted); margin-top: 2px; }
+
+    .btn-pdf {
+      background: #059669; color: #fff; border: none; padding: 10px 18px;
+      border-radius: 8px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-pdf:hover { background: #047857; }
+
+    /* Form Card */
+    .form-card {
+      background: #ffffff; border-radius: 16px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
+    }
+    .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 850px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 550px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .f-group { display: flex; flex-direction: column; gap: 6px; }
+    .f-group.span-2 { grid-column: span 2; }
+    .f-group.span-3 { grid-column: span 3; }
+    @media (max-width: 850px) { .f-group.span-2, .f-group.span-3 { grid-column: span 1; } }
+
+    .f-group label { font-size: 0.78rem; font-weight: 800; color: var(--muted); text-transform: uppercase; }
+    .f-input {
+      width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1;
+      border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff;
+    }
+    .f-input:focus { border-color: var(--mr-orange); }
+
+    .btn-submit {
+      grid-column: span 3; background: var(--mr-orange); color: #fff; border: none;
+      padding: 12px; border-radius: 8px; font-weight: 800; font-size: 1rem; cursor: pointer;
+      transition: 0.2s; margin-top: 6px;
+    }
+    @media (max-width: 850px) { .btn-submit { grid-column: span 2; } }
+    @media (max-width: 550px) { .btn-submit { grid-column: span 1; } }
+    .btn-submit:hover { background: #c2410c; }
+
+    /* Summary Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    @media (max-width: 750px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat-box { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); text-align: center; }
+    .stat-box h4 { font-size: 0.72rem; font-weight: 800; color: var(--muted); text-transform: uppercase; }
+    .stat-box p { font-size: 1.3rem; font-weight: 900; color: var(--brand-blue); margin-top: 6px; }
+
+    /* Table Section */
+    .table-card { background: #ffffff; border-radius: 16px; padding: 20px; box-shadow: var(--shadow); overflow-x: auto; }
+    .table-card h3 { font-size: 1.2rem; font-weight: 800; color: var(--brand-blue); margin-bottom: 14px; }
+    
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem; min-width: 850px; }
+    th { background: #f8fafc; color: var(--muted); font-weight: 800; padding: 10px 10px; border-bottom: 2px solid var(--border); }
+    td { padding: 10px; border-bottom: 1px solid var(--border); color: var(--text); }
+    tr:hover { background: #f8fafc; }
+
+    .action-btns { display: flex; gap: 6px; }
+    .btn-edit { background: #e0f2fe; color: #0284c7; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 700; }
+    .btn-edit:hover { background: #0284c7; color: #fff; }
+    .btn-del { background: #fee2e2; color: #ef4444; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 700; }
+    .btn-del:hover { background: #ef4444; color: #fff; }
+
+    /* Strict PDF Print Styling: Only data & stats will appear in PDF */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .header-card, .form-card, .action-btns, th:last-child, td:last-child { display: none !important; }
+      .container { max-width: 100% !important; width: 100% !important; margin: 0; padding: 0; }
+      .table-card { box-shadow: none; padding: 0; border: none; }
+      .stats-grid { margin-bottom: 20px; }
+      .stat-box { border: 1px solid #cbd5e1; box-shadow: none; }
+      table { width: 100% !important; font-size: 10pt; }
+      th, td { border: 1px solid #cbd5e1; padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <div class="header-card">
+      <div>
+        <h1><i class="fa-solid fa-briefcase-medical"></i> Advanced MR Tour & Expense Diary</h1>
+        <p>Record city distance, local travel km, doctor calls, hotel name, lodging and food expenses.</p>
+      </div>
+      <button class="btn-pdf" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> Save / Print PDF Report</button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <h4>Total Entries</h4>
+        <p id="statTotalCount">0</p>
+      </div>
+      <div class="stat-box">
+        <h4>Total Distance</h4>
+        <p id="statTotalKm">0 KM</p>
+      </div>
+      <div class="stat-box">
+        <h4>Total Doctors Met</h4>
+        <p id="statTotalDocs">0</p>
+      </div>
+      <div class="stat-box">
+        <h4>Total Expense</h4>
+        <p id="statTotalExpense">₹0</p>
+      </div>
+    </div>
+
+    <!-- Data Entry Form -->
+    <div class="form-card">
+      <form onsubmit="saveTourRecord(event)" class="form-grid">
+        <input type="hidden" id="editRecordId" value="">
+        <div class="f-group">
+          <label>Date *</label>
+          <input type="date" id="tDate" class="f-input" required>
+        </div>
+        <div class="f-group">
+          <label>Working City / Station *</label>
+          <input type="text" id="tCity" class="f-input" placeholder="e.g. Kota / Jaipur" required>
+        </div>
+        <div class="f-group">
+          <label>City to City Distance (KM)</label>
+          <input type="text" id="tCityDist" class="f-input" placeholder="Leave blank or -">
+        </div>
+        <div class="f-group">
+          <label>Local City Running (KM)</label>
+          <input type="text" id="tLocalKm" class="f-input" placeholder="Leave blank or -">
+        </div>
+        <div class="f-group">
+          <label>Total Doctors Met</label>
+          <input type="text" id="tDocsMet" class="f-input" placeholder="Leave blank or -">
+        </div>
+        <div class="f-group">
+          <label>Hotel / Lodge Name</label>
+          <input type="text" id="tHotelName" class="f-input" placeholder="Leave blank or -">
+        </div>
+        <div class="f-group">
+          <label>Hotel Expense (Lodging)</label>
+          <input type="text" id="tHotelExpense" class="f-input" placeholder="Leave blank or -">
+        </div>
+        <div class="f-group">
+          <label>Food & Meals Expense</label>
+          <input type="text" id="tFoodExpense" class="f-input" placeholder="Leave blank or -">
+        </div>
+        <div class="f-group span-2">
+          <label>Additional Notes / Calling Remarks</label>
+          <input type="text" id="tRemarks" class="f-input" placeholder="Optional notes...">
+        </div>
+        <button type="submit" id="btnFormSubmit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Save Tour & Expense Record</button>
+      </form>
+    </div>
+
+    <!-- Records Table -->
+    <div class="table-card">
+      <h3>Complete Tour & Expense History</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>City</th>
+            <th>Intercity (KM)</th>
+            <th>Local (KM)</th>
+            <th>Dr. Met</th>
+            <th>Hotel</th>
+            <th>Hotel (₹)</th>
+            <th>Food (₹)</th>
+            <th>Total (₹)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tourTableBody">
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    const STORAGE_KEY_TOUR = "mr_advanced_tour_expense_records";
+    let records = [];
+
+    document.getElementById('tDate').valueAsDate = new Date();
+
+    function loadRecords() {
+      const data = localStorage.getItem(STORAGE_KEY_TOUR);
+      if (data) {
+        try { records = JSON.parse(data); } catch(e) { records = []; }
+      }
+      renderTable();
+    }
+
+    function parseNumericVal(val) {
+      if(!val || val.trim() === '-' || val.trim() === '') return 0;
+      let num = parseFloat(val);
+      return isNaN(num) ? 0 : num;
+    }
+
+    function formatDisplayVal(val, isCurrency = false) {
+      if(!val || val === '-' || val.toString().trim() === '') return '-';
+      let num = parseFloat(val);
+      if(isNaN(num)) return val;
+      return isCurrency ? '₹' + num : num;
+    }
+
+    function saveTourRecord(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editRecordId').value;
+      const date = document.getElementById('tDate').value;
+      const city = document.getElementById('tCity').value.trim();
+      
+      const cityDistRaw = document.getElementById('tCityDist').value.trim();
+      const localKmRaw = document.getElementById('tLocalKm').value.trim();
+      const docsMetRaw = document.getElementById('tDocsMet').value.trim();
+      
+      const hotelName = document.getElementById('tHotelName').value.trim() || "-";
+      
+      const hotelExpRaw = document.getElementById('tHotelExpense').value.trim();
+      const foodExpRaw = document.getElementById('tFoodExpense').value.trim();
+      const remarks = document.getElementById('tRemarks').value.trim() || "-";
+
+      const cityDistNum = parseNumericVal(cityDistRaw);
+      const localKmNum = parseNumericVal(localKmRaw);
+      const docsMetNum = parseNumericVal(docsMetRaw);
+      const hotelExpNum = parseNumericVal(hotelExpRaw);
+      const foodExpNum = parseNumericVal(foodExpRaw);
+
+      const totalKm = cityDistNum + localKmNum;
+      const totalExpense = hotelExpNum + foodExpNum;
+
+      const recordData = {
+        id: editId ? Number(editId) : Date.now(),
+        date,
+        city,
+        cityDist: cityDistRaw === '' ? '-' : cityDistRaw,
+        localKm: localKmRaw === '' ? '-' : localKmRaw,
+        totalKm,
+        docsMet: docsMetRaw === '' ? '-' : docsMetRaw,
+        hotelName,
+        hotelExpense: hotelExpRaw === '' ? '-' : hotelExpRaw,
+        foodExpense: foodExpRaw === '' ? '-' : foodExpRaw,
+        totalExpense,
+        remarks
+      };
+
+      if(editId) {
+        records = records.map(r => String(r.id) === String(editId) ? recordData : r);
+        alert("Record updated successfully!");
+        document.getElementById('editRecordId').value = '';
+        document.getElementById('btnFormSubmit').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Save Tour & Expense Record`;
+      } else {
+        records.unshift(recordData);
+        alert("Tour record saved successfully!");
+      }
+
+      localStorage.setItem(STORAGE_KEY_TOUR, JSON.stringify(records));
+      e.target.reset();
+      document.getElementById('tDate').valueAsDate = new Date();
+      renderTable();
+    }
+
+    function editRecord(id) {
+      const r = records.find(item => String(item.id) === String(id));
+      if(r) {
+        document.getElementById('editRecordId').value = r.id;
+        document.getElementById('tDate').value = r.date;
+        document.getElementById('tCity').value = r.city;
+        document.getElementById('tCityDist').value = r.cityDist === '-' ? '' : r.cityDist;
+        document.getElementById('tLocalKm').value = r.localKm === '-' ? '' : r.localKm;
+        document.getElementById('tDocsMet').value = r.docsMet === '-' ? '' : r.docsMet;
+        document.getElementById('tHotelName').value = r.hotelName === '-' ? '' : r.hotelName;
+        document.getElementById('tHotelExpense').value = r.hotelExpense === '-' ? '' : r.hotelExpense;
+        document.getElementById('tFoodExpense').value = r.foodExpense === '-' ? '' : r.foodExpense;
+        document.getElementById('tRemarks').value = r.remarks === '-' ? '' : r.remarks;
+
+        document.getElementById('btnFormSubmit').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Update Tour Record`;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function deleteRecord(id) {
+      if(confirm("Are you sure you want to delete this record?")) {
+        records = records.filter(r => r.id !== id);
+        localStorage.setItem(STORAGE_KEY_TOUR, JSON.stringify(records));
+        renderTable();
+      }
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('tourTableBody');
+      tbody.innerHTML = '';
+
+      let totalCount = records.length;
+      let grandTotalKm = 0;
+      let totalDocsCount = 0;
+      let grandTotalExpense = 0;
+
+      if(records.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#64748b; padding:24px;">No records found. Fill the form above to log your tour details.</td></tr>`;
+      } else {
+        records.forEach(r => {
+          grandTotalKm += (typeof r.totalKm === 'number' ? r.totalKm : 0);
+          totalDocsCount += parseNumericVal(r.docsMet);
+          grandTotalExpense += (typeof r.totalExpense === 'number' ? r.totalExpense : 0);
+
+          let displayCityDist = r.cityDist !== '-' ? r.cityDist + ' km' : '-';
+          let displayLocalKm = r.localKm !== '-' ? r.localKm + ' km' : '-';
+          let displayDocs = r.docsMet !== '-' ? r.docsMet + ' Drs' : '-';
+          let displayHotelExp = r.hotelExpense !== '-' ? '₹' + r.hotelExpense : '-';
+          let displayFoodExp = r.foodExpense !== '-' ? '₹' + r.foodExpense : '-';
+
+          tbody.innerHTML += `
+            <tr>
+              <td><b>${r.date}</b></td>
+              <td><b>${r.city}</b></td>
+              <td>${displayCityDist}</td>
+              <td>${displayLocalKm}</td>
+              <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:800;">${displayDocs}</span></td>
+              <td>${r.hotelName}</td>
+              <td>${displayHotelExp}</td>
+              <td>${displayFoodExp}</td>
+              <td><b style="color:var(--mr-orange);">₹${r.totalExpense}</b></td>
+              <td>
+                <div class="action-btns">
+                  <button class="btn-edit" onclick="editRecord(${r.id})" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                  <button class="btn-del" onclick="deleteRecord(${r.id})" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      document.getElementById('statTotalCount').innerText = totalCount;
+      document.getElementById('statTotalKm').innerText = `${grandTotalKm} KM`;
+      document.getElementById('statTotalDocs').innerText = totalDocsCount;
+      document.getElementById('statTotalExpense').innerText = `₹${grandTotalExpense}`;
+    }
+
+    loadRecords();
+  </script>
+</body>
+</html>
